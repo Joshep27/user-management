@@ -34,6 +34,53 @@ Api desarrollada en Typescript con los frameworks Nodejs y Expressjs, que realiz
     $ npm run start
     ```
 
+## ⏯️ End-points
+
+1. Sign-Up. [POST]
+  - Se coloca en el "Body" del Request lo siguiente, sustituyendo "value" por lo deseado:
+    ```
+    {
+        "email": "value",
+        "password": "value"
+    }
+    ```
+  - URL: http://localhost:3000/users/signup
+
+2. Sign-In. [POST]
+  - Se coloca en el "Body" del Request lo siguiente, sustituyendo "value" por lo deseado:
+    ```
+    {
+        "email": "value",
+        "password": "value"
+    }
+    ```
+  - URL: http://localhost:3000/users/signin
+  - Se debe guardar el token generado
+
+3. Sign-out. [DELETE]
+  - Se colocar en el header del Request lo siguiente, sustituyendo "token" por lo obtenido en Sign-In:
+    ```
+    x-access-token: token
+    ```
+  - URL: http://localhost:3000/users/logout
+
+4.  Buscar al usuario logueado. [GET]
+  - Se colocar en el header del Request lo siguiente, sustituyendo "token" por lo obtenido en Sign-In:
+    ```
+    x-access-token: token
+    ```
+  - URL: http://localhost:3000/users/me
+
+5.  Paginación de todos los usuarios. [GET]
+  - Se especificar en la URL los Query Parameters (limit, page), sustituyendo "value" por lo deseado:
+    ```
+    http://localhost:3000/users?limit=value&page=value
+    ```
+  - URL: http://localhost:3000/users
+
+
+
+
 ## Autor
 
 - **Jose Flores - [Joshep27](https://github.com/Joshep27)**
