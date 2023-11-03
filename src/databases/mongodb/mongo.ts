@@ -4,10 +4,10 @@ import { Database } from "../database";
 export class MongoDb extends Database<void> {
 	constructor() {
 		super();
-		this.type = "mongodb";
-		this.host = "localhost";
-		this.port = "27017";
-		this.dbName = "db";
+		this.type = process.env.MONGO_TYPE || "";
+		this.host = process.env.MONGO_HOST || "";
+		this.port = process.env.MONGO_PORT || "";
+		this.dbName = process.env.MONGO_DBNAME || "";
 	}
 
 	public connect(): void {

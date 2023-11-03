@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from "dotenv";
 import { UserController } from './controllers';
 import {mongoDb} from './databases';
 
@@ -7,6 +8,9 @@ const app = express();
 const port = 3000;
 app.use(express.json()); //middleware
 app.use(cors())
+
+//Environment Variables
+dotenv.config();
 
 //Connection
 mongoDb.connect()
