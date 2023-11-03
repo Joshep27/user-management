@@ -2,7 +2,6 @@ import { UserModel, TokenModel } from "../databases";
 import { UserDto } from "../dtos";
 import jwt from "jsonwebtoken";
 
-
 export class UserService {
 	static async create(user: UserDto) {
 		const exist = await UserModel.findOne({ email: user.email });
@@ -25,25 +24,31 @@ export class UserService {
 	}
 
 	static async checkToken(token: string) {
-		const tokenDecoded = jwt.verify(token, process.env.SECRET || "") as { id: string }
-		const user = await UserModel.findById(tokenDecoded.id)
+		const tokenDecoded = jwt.verify(token, process.env.SECRET || "") as { id: string };
+		const user = await UserModel.findById(tokenDecoded.id);
 		if (user) {
 			return user;
-		}
-		else{
+		} else {
 			throw new Error("No user found");
 		}
-
 	}
 
-	static async closeToken(token: string){
-		const clear = await TokenModel.deleteOne({token});
+	static async closeToken(token: string) {
+		const clear = await TokenModel.deleteOne({ token });
 		if (clear.deletedCount > 0) {
-			return {closed: true}
-		}else{
+			return { closed: true };
+		} else {
 			throw new Error("No token found");
 		}
 	}
 
+	static async finds(limit: number, page: number) {
+		const users = await UserModel.find()
+			.skip((page - 1) * limit)
+			.limit(limit);
 
+		const totalDocs = await UserModel.countDocuments();
+		const totalPage = Math.ceil(totalDocs / limit);
+		return { users, totalDocs, limit, totalPage, page };
+	}
 }

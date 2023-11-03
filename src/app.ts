@@ -1,30 +1,28 @@
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
-import { UserController } from './controllers';
-import {mongoDb} from './databases';
+import { UserController } from "./controllers";
+import { mongoDb } from "./databases";
 
 const app = express();
 const port = 3000;
-app.use(express.json()); //middleware
-app.use(cors())
+app.use(express.json()); 
+app.use(cors());
 
 //Environment Variables
 dotenv.config();
 
-//Connection
-mongoDb.connect()
+//Database Connection
+mongoDb.connect();
 
 //Controllers
 const userController = new UserController();
-app.use(userController.route, userController.router)
+app.use(userController.route, userController.router);
 
-
-app.get('/', (req, res) => {
-  res.send('API for authentication and authorization users')
-})
+app.get("/", (req, res) => {
+	res.send("API for authentication and authorization users");
+});
 
 app.listen(port, () => {
-  console.log(`App listening on port ${port}`)
-})
-
+	console.log(`App listening on port ${port}`);
+});

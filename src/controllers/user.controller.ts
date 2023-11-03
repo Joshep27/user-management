@@ -10,7 +10,8 @@ export class UserController {
 		this.router = Router();
 		this.router.post("/signup", this.signUp);
 		this.router.post("/signin", this.signIn);
-        this.router.get("/me", this.logged);
+        this.router.get("/me", this.me);
+		this.router.get("/", this.all);
 		this.router.delete("/logout", this.logout);
 	}
 
@@ -35,7 +36,7 @@ export class UserController {
 		}
 	}
 
-	public async logged(req: Request, res: Response) {
+	public async me(req: Request, res: Response) {
 		try {
 			const token = Array.isArray(req.headers["x-access-token"])
 				? req.headers["x-access-token"][0]
@@ -64,6 +65,18 @@ export class UserController {
 			} else {
 				return res.json(await UserService.closeToken(token));
 			}
+		} catch (error: any) {
+			res.status(400).json({
+				message: error.message,
+			});
+		}
+	}
+
+	public async all(req: Request, res: Response) {
+		try {
+			const {limit, page} = req.query as {limit: string, page: string};
+			const users = await UserService.finds(parseInt(limit), parseInt(page));
+			return res.json(users)
 		} catch (error: any) {
 			res.status(400).json({
 				message: error.message,
